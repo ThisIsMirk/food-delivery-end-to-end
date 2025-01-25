@@ -3,12 +3,11 @@ Predicting food delivery times based on variables: total distance (km), weather,
 
 #### Steps taken in this project: 
 1. Data exploration
-2. Splitting data into train and test
-3. Data cleaning
-4. Data transformation pipeline creation
-5. Training and evaluating models (and creating a pipeline to do so)
-6. Hyperparameter tuning
-7. Evaluating using test set
+2. Data cleaning
+3. Data transformation pipeline creation
+4. Training and evaluating models (and creating a pipeline to do so)
+5. Hyperparameter tuning
+6. Evaluating using test set
 
 ### Data Exploration
 
@@ -95,16 +94,17 @@ Predicting food delivery times based on variables: total distance (km), weather,
 </table>
 </div>
 
-`.info()
-Data columns (total 8 columns):
- #   Column                  Non-Null Count  Dtype  
----  ------                  --------------  -----  
- 0   Distance_km             1000 non-null   float64
- 1   Weather                 970 non-null    object 
- 2   Traffic_Level           970 non-null    object 
- 3   Time_of_Day             970 non-null    object 
- 4   Vehicle_Type            1000 non-null   object 
- 5   Preparation_Time_min    1000 non-null   int64  
- 6   Courier_Experience_yrs  970 non-null    float64
- 7   Delivery_Time_min       1000 non-null   int64  
-dtypes: float64(2), int64(2
+`.info()` shows us there are missing values to deal with, both categorical and numerical. 
+
+![image](https://github.com/user-attachments/assets/517d9f24-770f-4413-bed3-e7daca85f7a2)
+
+Visualization correlation between variable and target using a scatter plot matrix. We see a strong correlation between Distance_km and Delivery_Time_min (target variable) and a weaker but still noticeable correlation with Preparation_Time_min.
+
+![image](https://github.com/user-attachments/assets/c0b2179d-a085-4ffd-bffb-e96442e3b612)
+
+
+
+
+
+
+
