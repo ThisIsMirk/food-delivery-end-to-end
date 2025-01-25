@@ -1,6 +1,8 @@
 # food-delivery-end-to-end
 Predicting food delivery times based on variables: total distance (km), weather, traffic level, time of day, vehicle type, preparation time (min)
 
+<sub>This README was entirely written by a human. No GPT used... just to prove that I can.</sub>
+
 #### Steps taken in this project: 
 1. Data exploration
 2. Data cleaning
@@ -98,13 +100,62 @@ Predicting food delivery times based on variables: total distance (km), weather,
 
 ![image](https://github.com/user-attachments/assets/517d9f24-770f-4413-bed3-e7daca85f7a2)
 
-Visualization correlation between variable and target using a scatter plot matrix. We see a strong correlation between Distance_km and Delivery_Time_min (target variable) and a weaker but still noticeable correlation with Preparation_Time_min.
+Visualization correlation between variables and target using a scatter plot matrix. We see a strong correlation between Distance_km and Delivery_Time_min (target variable) and a weaker but still noticeable correlation with Preparation_Time_min.
 
 ![image](https://github.com/user-attachments/assets/c0b2179d-a085-4ffd-bffb-e96442e3b612)
 
+### Data Cleaning
 
+#### Missing Values and Outliers
 
+Missing values for categorical columns were replaced with the mode of each column (most commonly occurring value). Missing values for numerical columns were replace with the median the same way.
 
+```
+df['Weather'].fillna(df['Weather'].mode()[0], inplace=True)
+df['Traffic_Level'].fillna(df['Traffic_Level'].mode()[0], inplace=True)
+df['Time_of_Day'].fillna(df['Time_of_Day'].mode()[0], inplace=True)
+```
 
+Outliers were identified using `IsolationForest` and dropped.
 
+#### Encoding Categorical Columns
+
+Out of the four categorical columns, one was ordinal: Traffic_Level (Low, Medium, High). Therefore, this column was seperated and encoded using `OrdinalEncoder()`. The rest of the columns were encoded using `OneHotEncoder()`.
+
+#### Feature Scaling
+
+`MinMaxScaler` was used to scale the dataset. 
+
+```
+min_max_scaler = MinMaxScaler(feature_range=(-1, 1))
+df_num_min_max_scaled = min_max_scaler.fit_transform(df_num)
+```
+
+### Pipeline to Automate Data Cleaning
+
+As mentioned above, one of the categorical columns is separated to apply `OrdinalEncoder()`. 
+
+```
+num_attribs = ["Distance_km", "Preparation_Time_min", "Courier_Experience_yrs"]
+cat_attribs_one_hot = ["Weather", "Time_of_Day", "Vehicle_Type"]
+cat_attribs_ordinal = ["Traffic_Level"]
+
+cat_pipeline_one_hot = make_pipeline(
+    SimpleImputer(strategy="most_frequent"),
+    OneHotEncoder(handle_unknown="ignore")
+)
+
+cat_pipeline_ordinal = Pipeline([
+    ('imputer', SimpleImputer(strategy="most_frequent")),
+    ('ordinal', OrdinalEncoder())
+])
+
+preprocessing = ColumnTransformer([
+    ("num", num_pipeline, num_attribs),
+    ("catonehot", cat_pipeline_one_hot, cat_attribs_one_hot),
+    ("catordinal", cat_pipeline_ordinal, cat_attribs_ordinal)
+])
+```
+
+![image](https://github.com/user-attachments/assets/563dbb47-4857-424c-87a5-b467864477af)
 
