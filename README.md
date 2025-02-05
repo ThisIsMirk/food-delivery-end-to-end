@@ -1,4 +1,5 @@
 # food-delivery-end-to-end
+Experimenting with ML pipelines for both data cleaning and testing models with this project. 
 Predicting food delivery times based on variables: total distance (km), weather, traffic level, time of day, vehicle type, preparation time (min)
 
 <sub>This README was entirely written by a human. No GPT used... just to prove that I can.</sub>
