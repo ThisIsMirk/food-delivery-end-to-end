@@ -133,7 +133,7 @@ df_num_min_max_scaled = min_max_scaler.fit_transform(df_num)
 
 ### Pipeline to Automate Data Cleaning
 
-As mentioned above, one of the categorical columns is separated to apply `OrdinalEncoder()`. 
+As mentioned above, one of the categorical columns is separated to apply `OrdinalEncoder()`, the rest with `OneHotEncoder()`, and the numerical columns were standardized using `StandardScaler()`. A pipeline was built to automate this entire process: 
 
 ```
 num_attribs = ["Distance_km", "Preparation_Time_min", "Courier_Experience_yrs"]
